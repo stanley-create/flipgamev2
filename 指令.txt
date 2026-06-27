@@ -1,5 +1,7 @@
 git clone https://github.com/stanley-create/flipgamev2.git
 cd flipgamev2
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+python -m venv venv
 .\venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r backend\requirements.txt
 python backend\app.py
