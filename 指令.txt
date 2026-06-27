@@ -1,0 +1,3 @@
+cd C:\Users\yu427\Desktop\flipgame
+.\venv\Scripts\Activate.ps1
+python backend\app.py

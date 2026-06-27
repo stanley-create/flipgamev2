@@ -1,0 +1,205 @@
+:root {
+    --bg-color: #1e1e2f;
+    --text-color: #fff;
+    --board-bg: #2a2a40;
+    --cell-bg: #3b3b55;
+    --cell-hover: #4c4c6d;
+    --piece-red: #ff4757;
+    --piece-blue: #1e90ff;
+    --piece-yellow: #f1c40f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+#game-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    width: 480px;        /* 固定寬度，棋盤不會跳動 */
+    max-width: 95vw;
+}
+
+h1 {
+    font-size: 1.4rem;
+    margin: 0 0 12px 0;
+}
+
+/* ===== 資訊面板 ===== */
+.info-panel {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    text-align: left;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    font-size: 0.9rem;
+    min-height: 28px;
+}
+
+.info-label {
+    display: inline-block;
+    width: 42px;
+    flex-shrink: 0;
+    color: #999;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.info-value {
+    flex: 1;
+    font-weight: bold;
+}
+
+.info-hint {
+    color: #666;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* 正反面顏色 */
+.face-front { color: var(--piece-yellow); }
+.face-back  { color: var(--piece-red); }
+.face-front-blue { color: var(--piece-blue); }
+
+/* 下拉選單 */
+#game-mode-select {
+    background: var(--cell-bg);
+    color: white;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ===== 棋盤 ===== */
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(4, 80px);
+    gap: 8px;
+    background-color: var(--board-bg);
+    padding: 12px;
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background-color: var(--cell-bg);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+    perspective: 1000px;
+}
+
+.cell:hover {
+    background-color: var(--cell-hover);
+}
+
+.piece {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.piece.red { background-color: var(--piece-red); }
+.piece.blue { background-color: var(--piece-blue); }
+.piece.yellow-front { background-color: var(--piece-yellow); }
+.piece.yellow-back { background-color: var(--piece-red); border: 3px solid var(--piece-yellow); }
+
+.piece-flip {
+    transform: rotateY(180deg);
+}
+
+.piece-capture {
+    animation: capture 0.5s forwards;
+}
+
+@keyframes capture {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+.highlight-line {
+    border: 3px solid limegreen;
+    box-shadow: 0 0 15px limegreen;
+    z-index: 10;
+}
+
+.last-move {
+    box-shadow: 0 0 20px rgba(255,255,255,0.8);
+    border: 2px solid rgba(255,255,255,0.7);
+}
+
+/* ===== 按鈕 ===== */
+.controls {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    background-color: var(--piece-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0073e6;
+}
+
+/* ===== 勝利彈窗 ===== */
+#winner-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.92);
+    padding: 30px 40px;
+    border-radius: 14px;
+    border: 2px solid white;
+    z-index: 100;
+    text-align: center;
+}
+
+#winner-modal h2 {
+    color: limegreen;
+    margin-top: 0;
+}
